@@ -42,7 +42,9 @@ mean_steps <- mean(datesteps[,2])
 # calculate the median number of steps per day
 median_steps <-median(datesteps[,2])
 ```
+
 The mean number of daily steps is 1.0766189 &times; 10<sup>4</sup>
+The mean number of daily steps is 10765
 ## What is the average daily activity pattern?
 
 ```r
@@ -55,25 +57,17 @@ plot(intervalsteps,type = 'l',xlab = 'Interval',main = 'Histogram of mean number
 
 ```r
 # determine which interval contains the maximum average number of steps
-intervalsteps[which.max(intervalsteps[,2]),]
+max_interval <-intervalsteps[which.max(intervalsteps[,2]),][1]
 ```
-
-```
-##     interval    steps
-## 104      835 206.1698
-```
-
+The interval with the maximum average number of steps is 835
 ## Imputing missing values
 
 ```r
 # calculate number of rows with NA
 narows <- filter(data, !complete.cases(data))
-nrow( narows)
+num_narows <-nrow( narows)
 ```
-
-```
-## [1] 2304
-```
+The number of missing values in dataset is 2304
 
 ```r
 # loop through data vector and replace NA in 'steps' with mean steps/day for given interval
@@ -93,24 +87,17 @@ datestepsimpute <- dcast(meltdataimpute,date ~ variable, sum)
 hist(datestepsimpute[,3],breaks=15,xlab = 'interval', main = 'histogram of mean number of steps per interval with imputed data')
 ```
 
-![plot of chunk impute_vals](figure/impute_vals-1.png) 
+![plot of chunk impute_data](figure/impute_data-1.png) 
 
 ```r
 #compare mean and median values of imputed data
-print(mean(datesteps[,2]) < mean(datestepsimpute[,3]))
+mean_imputesteps <- mean(datestepsimpute[,3])
+median_imputesteps  <- median(datestepsimpute[,3])
 ```
-
-```
-## [1] FALSE
-```
-
-```r
-print(median(datesteps[,2])  < median(datestepsimpute[,3]))
-```
-
-```
-## [1] TRUE
-```
+The mean number of steps per day with imputed data is 1.0766189 &times; 10<sup>4</sup>.
+The median number of steps per day with imputed data is 1.0766189 &times; 10<sup>4</sup>.
+These values differ from the non-imputed data which has values of 1.0766189 &times; 10<sup>4</sup> and 10765 for the mean and median, respectively.
+Imputing the daily increases the maximum mean number of steps per interval.
 ## Are there differences in activity patterns between weekdays and weekends?
 
 ```r

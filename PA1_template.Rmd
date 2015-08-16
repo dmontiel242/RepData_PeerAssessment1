@@ -38,7 +38,9 @@ mean_steps <- mean(datesteps[,2])
 median_steps <-median(datesteps[,2])
 
 ```
+
 The mean number of daily steps is `r mean_steps`
+The mean number of daily steps is `r median_steps`
 ## What is the average daily activity pattern?
 ```{r avg_pattern}
 intervalsteps <- dcast(meltdata,interval ~ variable, mean)
@@ -46,15 +48,17 @@ intervalsteps <- dcast(meltdata,interval ~ variable, mean)
 plot(intervalsteps,type = 'l',xlab = 'Interval',main = 'Histogram of mean number of steps per interval')
 
 # determine which interval contains the maximum average number of steps
-intervalsteps[which.max(intervalsteps[,2]),]
+max_interval <-intervalsteps[which.max(intervalsteps[,2]),][1]
 ```
-
+The interval with the maximum average number of steps is `r max_interval`
 ## Imputing missing values
 ```{r impute_vals}
 # calculate number of rows with NA
 narows <- filter(data, !complete.cases(data))
-nrow( narows)
-
+num_narows <-nrow( narows)
+```
+The number of missing values in dataset is `r num_narows`
+```{r impute_data}
 # loop through data vector and replace NA in 'steps' with mean steps/day for given interval
 
 intervalsteps <- dcast(meltdata,interval ~ variable, mean)
@@ -71,9 +75,13 @@ meltdataimpute <- melt(v6,id.vars =c('date','interval'), measure.vars=c('steps',
 datestepsimpute <- dcast(meltdataimpute,date ~ variable, sum)
 hist(datestepsimpute[,3],breaks=15,xlab = 'interval', main = 'histogram of mean number of steps per interval with imputed data')
 #compare mean and median values of imputed data
-print(mean(datesteps[,2]) < mean(datestepsimpute[,3]))
-print(median(datesteps[,2])  < median(datestepsimpute[,3]))
+mean_imputesteps <- mean(datestepsimpute[,3])
+median_imputesteps  <- median(datestepsimpute[,3])
 ```
+The mean number of steps per day with imputed data is `r mean_imputesteps`.
+The median number of steps per day with imputed data is `r median_imputesteps`.
+These values differ from the non-imputed data which has values of `r mean_steps` and `r median_steps` for the mean and median, respectively.
+Imputing the daily increases the maximum mean number of steps per interval.
 ## Are there differences in activity patterns between weekdays and weekends?
 ```{r weekdays}
 library(lubridate)
