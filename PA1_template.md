@@ -50,7 +50,7 @@ The mean number of daily steps is 10765
 ```r
 intervalsteps <- dcast(meltdata,interval ~ variable, mean)
 
-plot(intervalsteps,type = 'l',xlab = 'Interval',main = 'Histogram of mean number of steps per interval')
+plot(intervalsteps,type = 'l',xlab = 'Interval',main = 'plot of  mean number of steps per interval')
 ```
 
 ![plot of chunk avg_pattern](figure/avg_pattern-1.png) 
