@@ -36,43 +36,13 @@ hist(datesteps[,2],breaks = 15, main = 'Histogram of Total Steps per Day',xlab =
 ![plot of chunk daily_steps](figure/daily_steps-1.png) 
 
 ```r
-dev.copy(png,'histplot1.png')
-```
-
-```
-## quartz_off_screen 
-##                 5
-```
-
-```r
-dev.off()
-```
-
-```
-## RStudioGD 
-##         2
-```
-
-```r
 # calculate the mean number of steps per day
-mean(datesteps[,2])
-```
+mean_steps <- mean(datesteps[,2])
 
-![plot of chunk daily_steps](figure/daily_steps-2.png) 
-
-```
-## [1] 10766.19
-```
-
-```r
 # calculate the median number of steps per day
-median(datesteps[,2])
+median_steps <-median(datesteps[,2])
 ```
-
-```
-## [1] 10765
-```
-
+The mean number of daily steps is 1.0766189 &times; 10<sup>4</sup>
 ## What is the average daily activity pattern?
 
 ```r
