@@ -7,7 +7,8 @@ output:
 ---
 ## Loading and preprocessing the data
 setwd("~/Coursera/RD_PA1/RepData_PeerAssessment1")
-```{r}
+```{r clean_data}
+
 library(downloader)
 library(dplyr)
 library(plyr)
@@ -24,11 +25,13 @@ meltdata <- melt(cleandata,id.vars =c('date','interval'), measure.vars = 'steps'
 ```
 
 ## What is mean total number of steps taken per day?
-```{r}
+```{r daily_steps}
 # calculate table of total number of steps per day
 datesteps <- dcast(meltdata,date~variable,sum)
 # make a histogram of the daily steps
 hist(datesteps[,2],breaks = 15, main = 'Histogram of Total Steps per Day',xlab = 'Day')
+dev.copy(png,'histplot1.png')
+dev.off()
 # calculate the mean number of steps per day
 mean(datesteps[,2])
 
@@ -38,7 +41,7 @@ median(datesteps[,2])
 ```
 
 ## What is the average daily activity pattern?
-```{r}
+```{r avg_pattern}
 intervalsteps <- dcast(meltdata,interval ~ variable, mean)
 
 plot(intervalsteps,type = 'l',xlab = 'Interval',main = 'Histogram of mean number of steps per interval')
@@ -48,7 +51,7 @@ intervalsteps[which.max(intervalsteps[,2]),]
 ```
 
 ## Imputing missing values
-```{r}
+```{r impute_vals}
 # calculate number of rows with NA
 narows <- filter(data, !complete.cases(data))
 nrow( narows)
@@ -73,7 +76,7 @@ print(mean(datesteps[,2]) < mean(datestepsimpute[,3]))
 print(median(datesteps[,2])  < median(datestepsimpute[,3]))
 ```
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r }
+```{r weekdays}
 library(lubridate)
 library(ggplot2)
 #calculate and label which days are weekend and weekdays
