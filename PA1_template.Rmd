@@ -45,7 +45,7 @@ The mean number of daily steps is `r median_steps`
 ```{r avg_pattern}
 intervalsteps <- dcast(meltdata,interval ~ variable, mean)
 
-plot(intervalsteps,type = 'l',xlab = 'Interval',main = 'plot of  mean number of steps per interval')
+plot(intervalsteps,type = 'l',xlab = 'Interval',main = 'plot of mean number of steps per interval')
 
 # determine which interval contains the maximum average number of steps
 max_interval <-intervalsteps[which.max(intervalsteps[,2]),][1]
