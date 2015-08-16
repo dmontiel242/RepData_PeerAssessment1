@@ -1,45 +1,17 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: 'Reproducible Research: Peer Assessment 1'
+output:
+  html_document:
+    keep_md: yes
+  pdf_document: default
+---
 ## Loading and preprocessing the data
 setwd("~/Coursera/RD_PA1/RepData_PeerAssessment1")
 
 ```r
 library(downloader)
 library(dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 library(plyr)
-```
-
-```
-## -------------------------------------------------------------------------
-## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)
-## -------------------------------------------------------------------------
-## 
-## Attaching package: 'plyr'
-## 
-## The following objects are masked from 'package:dplyr':
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize
-```
-
-```r
 library(reshape2)
 url <-'https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip'
 # download and unzip data from source
@@ -61,12 +33,32 @@ datesteps <- dcast(meltdata,date~variable,sum)
 hist(datesteps[,2],breaks = 15, main = 'Histogram of Total Steps per Day',xlab = 'Day')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+![plot of chunk daily_steps](figure/daily_steps-1.png) 
+
+```r
+dev.copy(png,'histplot1.png')
+```
+
+```
+## quartz_off_screen 
+##                 5
+```
+
+```r
+dev.off()
+```
+
+```
+## RStudioGD 
+##         2
+```
 
 ```r
 # calculate the mean number of steps per day
 mean(datesteps[,2])
 ```
+
+![plot of chunk daily_steps](figure/daily_steps-2.png) 
 
 ```
 ## [1] 10766.19
@@ -89,7 +81,7 @@ intervalsteps <- dcast(meltdata,interval ~ variable, mean)
 plot(intervalsteps,type = 'l',xlab = 'Interval',main = 'Histogram of mean number of steps per interval')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![plot of chunk avg_pattern](figure/avg_pattern-1.png) 
 
 ```r
 # determine which interval contains the maximum average number of steps
@@ -131,7 +123,7 @@ datestepsimpute <- dcast(meltdataimpute,date ~ variable, sum)
 hist(datestepsimpute[,3],breaks=15,xlab = 'interval', main = 'histogram of mean number of steps per interval with imputed data')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+![plot of chunk impute_vals](figure/impute_vals-1.png) 
 
 ```r
 #compare mean and median values of imputed data
@@ -153,18 +145,6 @@ print(median(datesteps[,2])  < median(datestepsimpute[,3]))
 
 ```r
 library(lubridate)
-```
-
-```
-## 
-## Attaching package: 'lubridate'
-## 
-## The following object is masked from 'package:plyr':
-## 
-##     here
-```
-
-```r
 library(ggplot2)
 #calculate and label which days are weekend and weekdays
 daytype <- factor(wday(data[,2]),labels = c('Weekend','Weekday','Weekday','Weekday','Weekday','Weekday','Weekend'))
@@ -202,4 +182,4 @@ qplot(interval,imputed_steps, data = dowmelt, facets = dow~.)+geom_line(size=1.5
 ## else paste0(labels, : duplicated levels in factors are deprecated
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![plot of chunk weekdays](figure/weekdays-1.png) 
